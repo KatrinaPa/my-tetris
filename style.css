@@ -1,0 +1,56 @@
+* {
+    font-family: 'Press Start 2P', cursive;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: hsl(34, 7%, 58%);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.tetris-board {
+    /* width: calc(10 * 30px); /* 10 columns * 30 pixels per block = 300px */
+    /* height: calc(20 * 30px); /* 20 rows * 30 pixels per block = 600px */
+    display: block; /* if no use for width & height */
+    background-color: black;
+    border: 2px solid white;
+}
+
+.right_column {
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    align-items: center;
+}
+
+.right_column-scores {
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    gap: 20px;
+}
+
+.tetris-next {
+    border: 1px solid white;
+}
+
+.play-button {
+    width: 50%;
+    background-color: green;
+    color: white;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border: 2px solid white;
+    border-radius: 5px;
+    cursor: pointer;
+}
