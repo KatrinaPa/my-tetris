@@ -1,14 +1,9 @@
 const canvas = document.getElementById('tetris');
 const context = canvas.getContext('2d');
+const canvasNext = document.getElementById('next');
+const contextNext = canvasNext.getContext('2d');
 
-// Set canvas size
-canvas.width = COLUMNS * BLOCK_SIZE; // 10 * 30 = 300px
-canvas.height = ROWS * BLOCK_SIZE; // 20 * 30 = 600px
-
-// Scale blocks if no BLOCK_SIZE into draw():
-context.scale(BLOCK_SIZE, BLOCK_SIZE); //context.scale(30, 30) means that each unit in the drawing functions (1) is now 30 pixels on the screen
-
-let board = new Board();
+let board = new Board(context, contextNext);
 
 function play() {
     board.reset();
