@@ -47,20 +47,6 @@ class Piece {
         this.x = this.typeId === 4 ? 4 : 3; // if the piece is a square (typeId = 4), it starts at column 4, otherwise it starts at column 3
     }
 
+    // Function to rotate the piece
 
-
-
-    // UNUSEFUL just examples Function to draw some pieces at
-    drawSquare(x, y, color) {
-        this.context.beginPath();
-        this.context.arc(5, 12, 5, 0, Math.PI * 2);  // (x, y, radius, startAngle, endAngle)
-        this.context.fill();  // Fill the circle
-
-
-        this.context.fillStyle = color;
-        this.context.fillRect(x, y, 1, 1);  // Fill with color
-        this.context.strokeStyle = "red";
-        this.context.lineWidth = 0.03;  // Set stroke width to 1px
-        this.context.strokeRect(x, y, 1, 1);  // Stroke with thinner width
-    }
 }
