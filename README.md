@@ -3,7 +3,9 @@
 A modern, responsive Tetris game built with vanilla JavaScript, HTML, and CSS.  
 The game includes sound effects, keyboard controls, and adapts to both desktop and mobile screen sizes.
 
-![Tetris Game Screenshot](/assets/images/tetris_screenshot.png)
+![Tetris Game Screenshot](assets/images/tetris_screenshot.png)
+<img src="assets/images/tetris_screenshot.png" width="600">  
+<img src="assets/images/tetris_screenshot_mob.png" width="300">
 
 ## Features
 
@@ -18,13 +20,9 @@ The game includes sound effects, keyboard controls, and adapts to both desktop a
 - Sound effects and background music
 - Touch controls for mobile devices
 
-## 📸 Screenshots
+## Controls
 
-Example:
-<img src="/assets/images/tetris_screenshot.png" width="600">  
-<img src="/assets/images/tetris_screenshot_mob.png" width="300">
-
-## How to Play
+### How to Play
 
 - Click **Play** to start a new game.
 - Use arrow keys to move and rotate blocks:
@@ -33,63 +31,33 @@ Example:
   - **⬇️ Down Arrow** — Soft drop
   - **⬆️ Up Arrow** — Rotate
   - **Spacebar** — Quick drop
-- When the stack reaches the top — game over!
 
-## Controls
+### Game Rules
 
-### Desktop Controls
+- Clear lines by completing them horizontally
+- Each cleared line gives points
+- The game speeds up with each level (every 10 lines cleared)
+- Game over occurs if pieces stack to the top
 
-- ↑: Rotate clockwise
-- ←: Move left
-- →: Move right
-- ↓: Move down (soft drop)
-- Space: Hard drop
-- Z: Rotate counter-clockwise
-- X: Rotate clockwise
-- C: Hold piece
-- P: Pause game
-- Esc: Game over
-- Enter: Start game
+### Scoring System
 
-### Mobile Controls
+| Action           | Points (× level) |
+| ---------------- | ---------------- |
+| Single line      | 100              |
+| Double line      | 300              |
+| Triple line      | 500              |
+| Tetris (4 lines) | 800              |
+| Soft drop        | +1 per cell      |
+| Hard drop        | +2 per cell      |
 
-- Touch controls with on-screen buttons
-- Arrow buttons for movement
-- Space for hard drop
-- P for pause
-- Esc for game over
+## Technologies Used
 
-## Game Rules
+- HTML Canvas for rendering the board and pieces
+- JavaScript for game logic and interactions
+- CSS for layout and animations
+- Web Audio API for sound effects and music
 
-- Clear lines by filling them with blocks
-- Score points by clearing lines and dropping pieces
-- Game speeds up as you progress through levels
-- Clear 10 lines to advance to the next level
-- Game ends if pieces stack up to the top
-
-## Scoring System
-
-- Single line: 100 × level
-- Double line: 300 × level
-- Triple line: 500 × level
-- Tetris (4 lines): 800 × level
-- Soft drop: 1 point per cell
-- Hard drop: 2 points per cell
-
-## Technical Details
-
-### Technologies Used
-
-- HTML5 Canvas for game rendering
-- JavaScript for game logic
-- CSS3 for styling and animations
-- Web Audio API for sound effects
-
-### Project Structure
-
-## Installation
-
-# How to Run Locally
+## Installation & Run Locally
 
 1. Clone the repository:
 
@@ -97,7 +65,7 @@ Example:
 git clone https://github.com/yourusername/my-tetris.git
 ```
 
-2. Install Node.js (if not already installed)
+2. Make sure you have Node.js installed.
 
 3. Start the local server:
 
@@ -111,23 +79,15 @@ node html_server.js
 http://localhost:8080
 ```
 
-## Usage
-
-TODO - How does it work?
-
-```
-./my_project argument1 argument2
-```
-
 ## License
 
 This project is for educational and personal use as part of Qwasar School projects.
 Tetris® is a registered trademark of The Tetris Company.
-All copyright information is included in the game and visible on the main screen before the game starts.
+All trademark information is included in the game start screen.
 
-### The Core Team
+## The Core Team
 
-# Author
+### Author
 
 Katrina Pastore Ozolina
 Qwasar Project: My Tetris Game
