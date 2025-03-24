@@ -26,51 +26,15 @@
     position: relative;
 }
 
-/* :root {
-    --gradient-start: #0c1c2c;
-    --gradient-end: #1f3b5a;
-    --glow-color: rgba(64, 196, 255, 0.05);
-}
-
-/* body {
-    min-height: 100vh;
-    margin: 0;
-    background: 
-        linear-gradient(135deg, var(--gradient-start) 40%, var(--gradient-end) 80%),
-        radial-gradient(circle at 20% 20%, var(--glow-color), transparent 40%),
-        radial-gradient(circle at 80% 80%, var(--glow-color), transparent 40%),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect fill='none' width='200' height='200'/%3E%3Cg fill='none' stroke='%2364b5f6' stroke-opacity='0.08' stroke-width='2'%3E%3Cpath d='M20,20 h40 v40 h-40z' transform='rotate(15 40 40)'/%3E%3Cpath d='M80,80 h40 v20 h-20 v20 h-20z' transform='rotate(-20 100 100)'/%3E%3Cpath d='M140,30 h30 v40 h-30z' transform='rotate(10 155 50)'/%3E%3Cpath d='M50,140 h20 v40 h-20z M70,160 h20 v20 h-20z' transform='rotate(25 70 160)'/%3E%3C/g%3E%3C/svg%3E") repeat;
-    background-size: 100px 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    animation: subtleMove 30s linear infinite;
-    position: relative;
-}
-
-@keyframes subtleMove {
-    0% { 
-        background-position: 0 0;
-        background-size: 100px 200px;
-    }
-    50% {
-        background-size: 120px 240px;
-    }
-    100% { 
-        background-position: 0 200px;
-        background-size: 100px 200px;
-    }
-} */
-
 .grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    align-items: start; /* Change from center to start */
-    gap: 0 20px; /* Add horizontal gap between columns */
+    align-items: start;
+    gap: 0 20px;
 }
 
 .left_column, .right_column {
-    height: 600px; /* Exact same height as tetris board */
+    height: 600px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -95,24 +59,24 @@
 
 .copyright-notice {
     font-size: 0.6rem;
-    color: #b5b5c3;  /* Soft gray text */
+    color: #b5b5c3;
     text-align: center;
     line-height: 1.4;
     margin: 20px 0;
     padding: 15px 12px;
     border: 1px solid #30475e;
     border-radius: 8px;
-    background-color: rgba(22, 33, 62, 0.7);  /* Semi-transparent dark blue */
+    background-color: rgba(22, 33, 62, 0.7);
     max-width: 220px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    position: relative;  /* Add this for absolute positioning of close button */
-    opacity: 1;  /* Add this for fade effect */
-    transition: opacity 0.3s ease-out;  /* Smooth fade out */
+    position: relative;  /* for absolute positioning of close button */
+    opacity: 1;
+    transition: opacity 0.3s ease-out;
 }
 
 .copyright-notice.hidden {
     opacity: 0;
-    pointer-events: none;  /* Prevent interaction when hidden */
+    pointer-events: none;
 }
 
 .copyright-notice p {
@@ -172,7 +136,7 @@
 }
 
 .level-up-message {
-    color: #ffd700;  /* Brighter gold color */
+    color: #ffd700;
     font-family: 'Press Start 2P', cursive !important;
     font-size: 1.4rem;
     text-align: center;
@@ -229,7 +193,7 @@
     padding: 20px;
     border: 1px solid #30475e;
     border-radius: 8px;
-    background-color: rgba(22, 33, 62, 0.7);  /* Match copyright-notice background */
+    background-color: rgba(22, 33, 62, 0.7);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -259,7 +223,6 @@
     gap: 10px;
 }
 
-/* Style for keyboard keys */
 .controls-guide li kbd {
     background: #30475e;
     border: 1px solid #4a4e69;
@@ -290,7 +253,7 @@
 }
 
 .game-over-message, .pause-message {
-    color: #ffd700;  /* Gold color */
+    color: #ffd700;
     font-family: 'Press Start 2P', cursive !important;
     font-size: 1.4rem;
     text-align: center;
@@ -312,7 +275,7 @@
 }
 
 .game-over-message {
-    color: #ff4444;  /* Red color for game over */
+    color: #ff4444;
     border-color: #ff4444;
     box-shadow: 
         0 0 20px rgba(255, 68, 68, 0.3),
@@ -402,8 +365,6 @@
     transform: rotate(-45deg);
 }
 
-/* Add these media queries at the end of your style.css file */
-
 @media screen and (max-width: 768px) {
     .grid {
         grid-template-columns: 1fr;
@@ -411,14 +372,13 @@
         padding: 10px;
     }
 
-    /* Left Column - match tetris board width */
     .left_column {
         height: auto;
-        width: 300px; /* Match tetris board width */
+        width: 300px;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        padding: 10px 0; /* Remove horizontal padding */
+        padding: 10px 0;
         order: 1;
         margin: 0 auto;
     }
@@ -440,7 +400,6 @@
         padding: 8px 15px;
     }
 
-    /* Copyright Notice */
     .copyright-notice {
         position: fixed;
         top: 90px;
@@ -452,20 +411,17 @@
         margin: 0;
     }
 
-    /* Main Game Board */
     .tetris-board {
         order: 2;
         margin: 0 auto;
     }
 
-    /* Right Column */
     .right_column {
         height: auto;
         order: 3;
         padding: 15px;
     }
 
-    /* Controls Guide - mobile version */
     .controls-guide {
         width: 300px;
         margin: 10px auto;
@@ -503,12 +459,10 @@
         cursor: pointer;
     }
 
-    /* Special styling for Space button */
     .controls-guide li:nth-child(5) kbd {
         padding: 8px 20px;
     }
 
-    /* Game Stats */
     .game-stats {
         order: 2;
         margin: 15px 0;
@@ -519,17 +473,16 @@
 
     .game-stats p {
         display: flex;
-        flex-direction: column;  /* Stack label and value vertically */
+        flex-direction: column;
         align-items: center;
-        gap: 8px;  /* Space between stacked elements */
-        line-height: 1.5;  /* Increased line height */
+        gap: 8px;
+        line-height: 1.5;
     }
 
     .game-stats span {
-        margin-top: 5px;  /* Additional space above the numbers */
+        margin-top: 5px;
     }
 
-    /* Next Piece */
     .next-piece {
         order: 3;
         width: 120px;
@@ -542,7 +495,6 @@
     }
 }
 
-/* Additional adjustments for very small screens */
 @media screen and (max-width: 350px) {
     .tetris-board {
         width: 280px;

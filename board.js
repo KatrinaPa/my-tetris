@@ -1,7 +1,7 @@
 class Board {
 
     context; // canvas context for drawing the main game board
-    contextNext; // will help us draw the next piece coming
+    contextNext; // will help draw the next piece coming
     grid; // 2D array representing the board
     piece; // The current piece in play
     next; // The next piece to play
@@ -43,7 +43,7 @@ class Board {
         // Calculate center position based on piece size
         if (this.next.typeId === 1) { // I piece (4x4)
             this.next.x = 0;
-            this.next.y = 0;  // Changed from 1 to 0 to move it up
+            this.next.y = 0; 
         } else if (this.next.typeId === 2) { // O piece (2x2)
             this.next.x = 1;
             this.next.y = 1;
@@ -62,7 +62,7 @@ class Board {
 
     draw() { // Add ghost piece 
         const ghost = this.piece.getGhostPiece(this);
-        this.context.fillStyle = 'rgba(255, 255, 255, 0.05)'; // Changed from 0.1 to 0.05 for more transparency
+        this.context.fillStyle = 'rgba(255, 255, 255, 0.05)';
         ghost.shape.forEach((row, y) => {
             row.forEach((value, x) => {
                 if (value > 0) {
@@ -76,12 +76,12 @@ class Board {
     }
 
     drop() {
-        let p = moves[KEY.DOWN](this.piece); //Moves the piece down
-        if (this.valid(p)) { //If the move is valid
-            this.piece.move(p); //Move the piece
+        let p = moves[KEY.DOWN](this.piece);
+        if (this.valid(p)) {
+            this.piece.move(p);
         } else {
-            this.freeze(); //Freeze the piece
-            this.clearLines(); //Clears lines - removing full rows from the Tetris board
+            this.freeze();
+            this.clearLines();
             if (this.piece.y === 0) { //If the piece is at the top of the board
                 return false // Game over
             }
@@ -122,10 +122,10 @@ class Board {
     }
 
     freeze() {
-        this.piece.shape.forEach((row, y) => { //Iterates over each row each piece's shape
-            row.forEach((value, x) => { //Iterates over value in the row
+        this.piece.shape.forEach((row, y) => {
+            row.forEach((value, x) => {
                 if (value > 0) {
-                    this.grid[y + this.piece.y][x + this.piece.x] = this.piece.typeId; //Add the piece to the grid
+                    this.grid[y + this.piece.y][x + this.piece.x] = this.piece.typeId;
                 }
             });
         });
@@ -135,16 +135,14 @@ class Board {
         this.grid.forEach((row, y) => {
             row.forEach((value, x) => {
                 if (value > 0) {
-                    // Fill the block
                     this.context.fillStyle = COLORS[value];
                     this.context.fillRect(x, y, 1, 1);
-                    // Add sharper border
-                    this.context.strokeStyle = 'rgba(0, 0, 0, 0.5)'; // Darker border
-                    this.context.lineWidth = 0.02; // Thinner, sharper line
+                    this.context.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+                    this.context.lineWidth = 0.02;
                     this.context.strokeRect(
                         x + 0.05, 
                         y + 0.05, 
-                        0.9,  // Slightly smaller than 1 to prevent overlap
+                        0.9,
                         0.9
                     );
                 }
@@ -185,7 +183,6 @@ class Board {
     }
 
     rotate(p) {
-        // First try normal rotation
         let clone = JSON.parse(JSON.stringify(p));
         
         // Transpose matrix
@@ -203,7 +200,7 @@ class Board {
         }
         
         // Try wall kicks - shift left or right if rotation near wall
-        const kicks = [-1, 1, -2, 2]; // Try these horizontal shifts
+        const kicks = [-1, 1, -2, 2];
         for (let kick of kicks) {
             const kickedPiece = JSON.parse(JSON.stringify(clone));
             kickedPiece.x = clone.x + kick;
@@ -212,7 +209,6 @@ class Board {
                 return kickedPiece;
             }
         }
-        
         // If no valid rotation found, return original piece
         return p;
     }
@@ -243,8 +239,7 @@ class Board {
             if (this.valid(kickedPiece)) {
                 return kickedPiece;
             }
-        }
-        
+        }       
         // If no valid rotation found, return original piece
         return p;
     }
@@ -289,13 +284,11 @@ class Board {
             this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
             this.context.putImageData(currentBoard, 0, 0);
     
-            // Overlay
             this.context.fillStyle = `rgba(0, 0, 0, 0.4)`;
             this.context.fillRect(0, 0, COLUMNS, ROWS);
     
-            // Text
             this.context.font = '1px Press Start 2P';
-            this.context.fillStyle = `rgba(255, 215, 0, ${opacity})`; // gold color
+            this.context.fillStyle = `rgba(255, 215, 0, ${opacity})`;
             this.context.fillText(`LEVEL ${account.level}!`, 2, 5);
     
             if (fadeIn) {
@@ -320,7 +313,7 @@ class Board {
         void levelUpMsg.offsetWidth;
         levelUpMsg.classList.add('show');
         
-        // Ensure message is hidden after animation
+        // message is hidden after animation
         setTimeout(() => {
             levelUpMsg.classList.remove('show');
         }, 2000);

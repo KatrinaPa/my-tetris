@@ -19,7 +19,6 @@ class Piece {
         // Create array with pieces 1-7
         const bag = [1, 2, 3, 4, 5, 6, 7];
         
-        // Fisher-Yates shuffle algorithm
         for (let i = bag.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [bag[i], bag[j]] = [bag[j], bag[i]];
@@ -31,9 +30,9 @@ class Piece {
         // If current bag is empty, move pieces from next bag
         if (Piece.bag.length === 0) {
             Piece.bag = Piece.nextBag.length > 0 ? Piece.nextBag : Piece.getNewBag();
-            Piece.nextBag = Piece.getNewBag(); // Always prepare next bag
+            Piece.nextBag = Piece.getNewBag();
         }
-        return Piece.bag.shift(); // Use shift() instead of pop() to take from beginning
+        return Piece.bag.shift();
     }
 
     spawn() {
@@ -50,15 +49,13 @@ class Piece {
         this.shape.forEach((row, y) => {
             row.forEach((value, x) => {
                 if (value > 0) {
-                    // Fill the block
                     this.context.fillRect(this.x + x, this.y + y, 1, 1);
-                    // Add sharper border
-                    this.context.strokeStyle = 'rgba(0, 0, 0, 0.5)'; // Darker border
-                    this.context.lineWidth = 0.02; // Thinner, sharper line
+                    this.context.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+                    this.context.lineWidth = 0.02;
                     this.context.strokeRect(
                         this.x + x + 0.05, 
                         this.y + y + 0.05, 
-                        0.9,  // Slightly smaller than 1 to prevent overlap
+                        0.9,
                         0.9
                     );
                 }
@@ -72,14 +69,7 @@ class Piece {
         this.shape = p.shape; // p.shape is the shape of the piece
     }
 
-    //randomizeTetrominoType(nbrOfTypes) { // in our case - 7 types, because we have 7 different colors
-    //    return Math.floor(Math.random() * nbrOfTypes + 1); // + 1 because Math.floor() rounds it down
-    //}
-
     setStartingPosition() {
-        // I piece (typeId 1) needs to start at 3 to be centered since it's 4 blocks wide
-        // O piece (typeId 2) starts at 4 to be centered since it's 2x2
-        // All other pieces start at 3
         if (this.typeId === 1) {
             this.x = 3;  // I piece - centered (columns 3,4,5,6)
         } else if (this.typeId === 2) {

@@ -7,12 +7,12 @@ const LINES_PER_LEVEL = 10;
 const COLORS = [
     "none",
     "#87eaed",  // Pastel cyan (I piece)
-    "#FFE083",  // Soft yellow (O piece)
+    "#FFE083",  // Pastel yellow (O piece)
     "#B19CD9",  // Pastel purple (T piece)
-    "#98E2A1",  // Soft green (S piece)
-    "#FF9B9B",  // Soft red (Z piece)
-    "#82C3F5",  // Soft blue (J piece)
-    "#FFB677"   // Soft orange (L piece)
+    "#98E2A1",  // Pastel green (S piece)
+    "#FF9B9B",  // Pastel red (Z piece)
+    "#82C3F5",  // Pastel blue (J piece)
+    "#FFB677"   // Pastel orange (L piece)
 ];
 Object.freeze(COLORS);
 
