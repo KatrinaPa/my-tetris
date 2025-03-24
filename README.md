@@ -3,9 +3,12 @@
 A modern, responsive Tetris game built with vanilla JavaScript, HTML, and CSS.  
 The game includes sound effects, keyboard controls, and adapts to both desktop and mobile screen sizes.
 
-![Tetris Game Screenshot](assets/images/tetris_screenshot.png)
+**[Play the Game Live on Vercel!](https://my-tetris-sepia.vercel.app/)**
+
+## Screenshots
+
 <img src="assets/images/tetris_screenshot.png" width="600">  
-<img src="assets/images/tetris_screenshot_mob.png" width="300">
+<img src="assets/images/tetris_screenshot_mob.png" width="200">
 
 ## Features
 
