@@ -3,7 +3,7 @@
 A modern, responsive Tetris game built with vanilla JavaScript, HTML, and CSS.  
 The game includes sound effects, keyboard controls, and adapts to both desktop and mobile screen sizes.
 
-**[Play the Game Live on Vercel!](https://my-tetris-sepia.vercel.app/)**
+**[Play My Tetris Game Live on Vercel!](https://my-tetris-sepia.vercel.app/)**
 
 ## Screenshots
 
@@ -29,11 +29,12 @@ The game includes sound effects, keyboard controls, and adapts to both desktop a
 
 - Click **Play** to start a new game.
 - Use arrow keys to move and rotate blocks:
+  - **⬆️ Up Arrow** — Rotate
   - **⬅️ Left Arrow** — Move left
   - **➡️ Right Arrow** — Move right
   - **⬇️ Down Arrow** — Soft drop
-  - **⬆️ Up Arrow** — Rotate
-  - **Spacebar** — Quick drop
+  - **Spacebar** — Hard drop
+  - **C key (Hold)** button or key to store a piece
 
 ### Game Rules
 
@@ -55,10 +56,10 @@ The game includes sound effects, keyboard controls, and adapts to both desktop a
 
 ## Technologies Used
 
-- HTML Canvas for rendering the board and pieces
-- JavaScript for game logic and interactions
-- CSS for layout and animations
-- Web Audio API for sound effects and music
+- **HTML Canvas** for rendering the board and pieces
+- **JavaScript** for game logic and interactions
+- **CSS** for layout and animations
+- **Web Audio API** for sound effects and music
 
 ## Installation & Run Locally
 
