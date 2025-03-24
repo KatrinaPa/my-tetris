@@ -1,33 +1,66 @@
 class Piece {
-    x; // Position of the piece on the board
+    x; // Position of the current position  of the piece on the board
     y; // Position of the piece on the board
     color; // color of the Tetromino
     shape; // 2D array defining the shape of the Tetromino
     context; // 2D drawing context from the canvas
     typeId; // The identifier for the type of Tetromino
 
+    static bag = []; // static bag shared between all pieces
+    static nextBag = []; // Add a second bag for looking ahead
+
     constructor(context) {
         this.context = context;
         this.spawn(); // when Piece is created, it immediately calls spawn(), which initializes its color, shape, and starting position
     }
 
-    spawn() {
-        this.typeId = this.randomizeTetrominoType(COLORS.length - 1); // COLORS.length - 1 = 7 (since COLORS.length = 8).
+    // Function to get a new random piece
+    static getNewBag() {
+        // Create array with pieces 1-7
+        const bag = [1, 2, 3, 4, 5, 6, 7];
+        
+        // Fisher-Yates shuffle algorithm
+        for (let i = bag.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [bag[i], bag[j]] = [bag[j], bag[i]];
+        }
+        return bag;
+    }
 
+    static nextPieceFromBag() {
+        // If current bag is empty, move pieces from next bag
+        if (Piece.bag.length === 0) {
+            Piece.bag = Piece.nextBag.length > 0 ? Piece.nextBag : Piece.getNewBag();
+            Piece.nextBag = Piece.getNewBag(); // Always prepare next bag
+        }
+        return Piece.bag.shift(); // Use shift() instead of pop() to take from beginning
+    }
+
+    spawn() {
+        this.typeId = Piece.nextPieceFromBag();
         this.color = COLORS[this.typeId];
         this.shape = SHAPES[this.typeId];
-        // Starting position.
-        this.x = 0;
+        this.setStartingPosition();
         this.y = 0;
     }
 
     // Function to draw entire piece on the board
     draw() {
         this.context.fillStyle = this.color;
-        this.shape.forEach((row, y) => { // iterates over each row in array (row represents one row, y is its index).
-            row.forEach((value, x) => { // iterates over each cell in row (value is number, x is its index)
+        this.shape.forEach((row, y) => {
+            row.forEach((value, x) => {
                 if (value > 0) {
-                    this.context.fillRect(this.x + x, this.y + y, 1, 1); // this.context.fillRect((this.x + x) * BLOCK_SIZE, (this.y + y) * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+                    // Fill the block
+                    this.context.fillRect(this.x + x, this.y + y, 1, 1);
+                    // Add sharper border
+                    this.context.strokeStyle = 'rgba(0, 0, 0, 0.5)'; // Darker border
+                    this.context.lineWidth = 0.02; // Thinner, sharper line
+                    this.context.strokeRect(
+                        this.x + x + 0.05, 
+                        this.y + y + 0.05, 
+                        0.9,  // Slightly smaller than 1 to prevent overlap
+                        0.9
+                    );
                 }
             });
         });
@@ -39,14 +72,35 @@ class Piece {
         this.shape = p.shape; // p.shape is the shape of the piece
     }
 
-    randomizeTetrominoType(nbrOfTypes) { // in our case - 7 types, because we have 7 different colors
-        return Math.floor(Math.random() * nbrOfTypes + 1); // + 1 because Math.floor() rounds it down
-    }
+    //randomizeTetrominoType(nbrOfTypes) { // in our case - 7 types, because we have 7 different colors
+    //    return Math.floor(Math.random() * nbrOfTypes + 1); // + 1 because Math.floor() rounds it down
+    //}
 
     setStartingPosition() {
-        this.x = this.typeId === 4 ? 4 : 3; // if the piece is a square (typeId = 4), it starts at column 4, otherwise it starts at column 3
+        // I piece (typeId 1) needs to start at 3 to be centered since it's 4 blocks wide
+        // O piece (typeId 2) starts at 4 to be centered since it's 2x2
+        // All other pieces start at 3
+        if (this.typeId === 1) {
+            this.x = 3;  // I piece - centered (columns 3,4,5,6)
+        } else if (this.typeId === 2) {
+            this.x = 4;  // O piece - centered (columns 4,5)
+        } else {
+            this.x = 3;  // All other pieces
+        }
     }
 
-    // Function to rotate the piece
-
+    getGhostPiece(board) {
+        let ghost = {
+            x: this.x,
+            y: this.y,
+            shape: this.shape
+        };
+        
+        while (board.valid(ghost)) {
+            ghost.y++;
+        }
+        ghost.y--;
+        
+        return ghost;
+    }
 }

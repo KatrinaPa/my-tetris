@@ -6,13 +6,13 @@ const BLOCK_SIZE = 30;
 const LINES_PER_LEVEL = 10;
 const COLORS = [
     "none",
-    "cyan",
-    "yellow",
-    "purple",
-    "green",
-    "red",
-    "blue",    
-    "orange",
+    "#87eaed",  // Pastel cyan (I piece)
+    "#FFE083",  // Soft yellow (O piece)
+    "#B19CD9",  // Pastel purple (T piece)
+    "#98E2A1",  // Soft green (S piece)
+    "#FF9B9B",  // Soft red (Z piece)
+    "#82C3F5",  // Soft blue (J piece)
+    "#FFB677"   // Soft orange (L piece)
 ];
 Object.freeze(COLORS);
 
@@ -57,13 +57,17 @@ const SHAPES = [
 Object.freeze(SHAPES);
 
 const KEY = {
+    ESC: 27,
     SPACE: 32,
     LEFT: 37,
     UP: 38,
     RIGHT: 39,
     DOWN: 40,
-    ESC: 27,
     P: 80,
+    Z: 90,
+    X: 88,
+    C: 67,
+    ENTER: 13
 };
 Object.freeze(KEY);
 

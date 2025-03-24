@@ -3,47 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
     <title>My Tetris</title>
 </head>
 <body>
     <div class="grid">
+        <div class="left_column">
+            <img src="/assets/images/Tetris_logo.png" alt="Tetris Logo" class="tetris-logo">
+            <div class="copyright-notice">
+                <button class="close-button">&times;</button>
+                <p>Tetris © 1985~2025 Tetris Holding.</p>
+                <p>Tetris logos, Tetris theme song and Tetriminos are trademarks of Tetris Holding.</p>
+                <p>The Tetris trade dress is owned by Tetris Holding.</p>
+                <p>Licensed to The Tetris Company.</p>
+                <p>Tetris Game Design by Alexey Pajitnov.</p>
+                <p>Tetris Logo Design by Roger Dean.</p>
+                <p>All Rights Reserved.</p>
+            </div>
+            <button class="sound-toggle">
+                <span class="sound-icon">♪</span>
+            </button>
+            <button onclick="play()" class="play-button">Play</button>
+        </div>
+
         <canvas id="tetris" class="tetris-board"></canvas>
+
         <div class="right_column">
-            <div class="right_column-scores">
-                <h1>TETRIS</h1>
+            <div class="game-stats">
                 <p>Score: <span id="score">0</span></p>
                 <p>Lines: <span id="lines">0</span></p>
                 <p>Level: <span id="level">0</span></p>
+            </div>
+            
+            <div class="next-piece">
                 <canvas id="next" class="tetris-next"></canvas>
             </div>
-            <button onclick="play()" class="play-button">Play</button>
+            
+            <div class="controls-guide">
+                <h2>Controls:</h2>
+                <ul>
+                    <!-- Mobile and Desktop Controls -->
+                    <div class="arrow-controls">
+                        <li><kbd>↑</kbd> Rotate CW</li>
+                        <li><kbd>←</kbd> Move Left</li>
+                        <li><kbd>→</kbd> Move Right</li>
+                        <li><kbd>↓</kbd> Move Down</li>
+                    </div>
+                    <div class="action-controls">
+                        <li><kbd>Space</kbd> Hard Drop</li>
+                        <li><kbd>P</kbd> Pause</li>
+                        <li><kbd>Esc</kbd> Game Over</li>
+                    </div>
+                    <!-- Desktop-only Controls -->
+                    <div class="desktop-controls">
+                        <li><kbd>Z</kbd> Rotate CCW</li>
+                        <li><kbd>X</kbd> Rotate CW</li>
+                        <li><kbd>C</kbd> Hold Piece</li>
+                    </div>
+                </ul>
+            </div>
+            <p id="level-up" class="level-up-message"></p>
         </div>
     </div>  
     
     <script src="constants.js"></script>
-    <script src="piece.js"></script>
     <script src="board.js"></script>
+    <script src="piece.js"></script>
+    <script src="sound.js"></script>
     <script src="my_tetris.js"></script>
 </body>
 </html>
-
-
-
-
-<!-- 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Tetris</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <canvas id="tetris"></canvas>
-    <script src="my_tetris.js"></script>
-</body>
-</html>
--->

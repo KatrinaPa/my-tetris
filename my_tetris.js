@@ -17,6 +17,7 @@ function updateAccount(key, value) { // updates the DOM elements with the latest
     }
 }
 
+// Proxy is used to automatically update the DOM when these values change, ensuring that the user interface is synchronized with the current game state.
 let account = new Proxy(accountValues, { // Proxy is a JavaScript object that allows to define custom behavior for operations performed on another object
     set: (target, key, value) => { // set(target, "score", 500)
         target[key] = value; // account.score = 500;
@@ -39,7 +40,8 @@ let board = new Board(context, contextNext);
 addEventListener();
 initNext();
 
-play();
+// At the top of my_tetris.js, after your const declarations
+sounds.music.load(); // Preload the music
 
 function initNext() {
     // Calculate size of canvas from constants
@@ -50,11 +52,35 @@ function initNext() {
 
 function addEventListener() {
     document.addEventListener('keydown', event => {
-        if (event.keyCode === KEY.P) {
-            pause();
+        // Add Enter key to start game
+        if (event.keyCode === KEY.ENTER) {
+            event.preventDefault();
+            play();
+            return;
         }
-        if (event.keyCode === KEY.ESC) {
+        
+        // Update pause controls
+        if (event.keyCode === KEY.P) {
+            event.preventDefault();
+            pause();
+        } else if (event.keyCode === KEY.ESC) {
+            event.preventDefault();
             gameOver();
+        } else if (event.keyCode === KEY.C) {
+            // Hold piece
+            board.holdPiece();
+        } else if (event.keyCode === KEY.Z) {  
+            event.preventDefault();
+            let p = board.rotateCCW(board.piece);
+            if (board.valid(p)) {
+                board.piece.move(p);
+            }
+        } else if (event.keyCode === KEY.X) {  
+            event.preventDefault();
+            let p = board.rotate(board.piece);
+            if (board.valid(p)) {
+                board.piece.move(p);
+            }
         } else if (moves[event.keyCode]) {
             event.preventDefault();
 
@@ -74,7 +100,60 @@ function addEventListener() {
                 }
             }
         }
-    })
+    });
+
+    // Add this after your other event listeners
+    document.querySelector('.close-button').addEventListener('click', function() {
+        const notice = document.querySelector('.copyright-notice');
+        notice.classList.add('hidden');
+    });
+
+    // Add this after your other event listeners in addEventListener()
+    const soundToggle = document.querySelector('.sound-toggle');
+    let isMuted = false;
+
+    soundToggle.addEventListener('click', function() {
+        isMuted = !isMuted;
+        
+        // No need to change the icon text, just toggle the muted class
+        this.classList.toggle('muted');
+        
+        // Mute/unmute all sounds
+        sounds.music.muted = isMuted;
+        sounds.gameover.muted = isMuted;
+        sounds.clearLine.muted = isMuted;
+        sounds.nextLevel.muted = isMuted;
+    });
+
+    // Add touch controls for mobile
+    document.querySelectorAll('.controls-guide kbd').forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
+            const key = button.textContent;
+            
+            // Map button text to key codes
+            const keyMap = {
+                '↑': KEY.UP,
+                '←': KEY.LEFT,
+                '→': KEY.RIGHT,
+                '↓': KEY.DOWN,
+                'Space': KEY.SPACE,
+                'Z': KEY.Z,
+                'X': KEY.X,
+                'C': KEY.C,
+                'P': KEY.P,
+                'Esc': KEY.ESC
+            };
+
+            if (keyMap[key]) {
+                // Create and dispatch keyboard event
+                const keyEvent = new KeyboardEvent('keydown', {
+                    keyCode: keyMap[key]
+                });
+                document.dispatchEvent(keyEvent);
+            }
+        });
+    });
 }
 
 function resetGame() {
@@ -86,12 +165,25 @@ function resetGame() {
 }
 
 function play() {
+    // Remove game over message if it exists
+    const gameOverMsg = document.querySelector('.game-over-message');
+    if (gameOverMsg) {
+        gameOverMsg.remove();
+    }
+    
     resetGame();
     time.start = performance.now();
+    
     // If we have an old game running a cancel it
     if (requestId) {
-        cancelAnimationFrame(requestId); // build in function that cancels the animation frame
+        cancelAnimationFrame(requestId);
     }
+    
+    // Start music from beginning with lower volume
+    sounds.music.currentTime = 0;
+    sounds.music.volume = 0.06; // Set volume to 2% here
+    sounds.music.play();
+    
     animate();
 }
 
@@ -111,24 +203,37 @@ function animate(now = 0) {
 
 function gameOver() {
     cancelAnimationFrame(requestId);
-    context.fillStyle = 'black';
-    context.fillRect(1, 3, 8, 1.2);
-    context.font = '1px Arial';
-    context.fillStyle = 'red';
-    context.fillText('GAME OVER', 1.8, 4);
+    
+    // Stop background music and play game over sound
+    sounds.music.pause();
+    sounds.gameover.play();
+    
+    context.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+    
+    const gameOverDiv = document.createElement('div');
+    gameOverDiv.className = 'game-over-message';
+    gameOverDiv.textContent = 'GAME OVER';
+    document.body.appendChild(gameOverDiv);
 }
 
 function pause() {
     if (!requestId) {
         animate();
+        // Remove pause message if exists
+        const pauseMsg = document.querySelector('.pause-message');
+        if (pauseMsg) pauseMsg.remove();
+        sounds.music.play(); // Resume music
         return;
     }
+    
     cancelAnimationFrame(requestId);
     requestId = null;
-    context.fillStyle = 'black';
-    context.fillRect(1, 3, 8, 1.2);
-    context.font = '1px Arial';
-    context.fillStyle = 'yellow';
-    context.fillText('PAUSED', 3, 4);
+    sounds.music.pause(); // Pause music
+    
+    const pauseDiv = document.createElement('div');
+    pauseDiv.className = 'pause-message';
+    pauseDiv.textContent = 'PAUSED';
+    document.body.appendChild(pauseDiv);
 }
 

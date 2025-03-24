@@ -1,56 +1,556 @@
 * {
-    font-family: 'Press Start 2P', cursive;
     margin: 0;
     padding: 0;
+    font-family: 'Roboto', sans-serif;
 }
 
-body {
+* body {
+    min-height: 100vh;
+    margin: 0;
+    background-image: 
+        linear-gradient(
+            to bottom,
+            rgba(10, 15, 44, 0.1) 0%,
+            rgba(10, 15, 44, 0.1) 70%,
+            rgba(10, 15, 44, 0.85) 100%
+        ),
+        url('/assets/images/backgr4.jpg');
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: bottom;    
+        background-size: 87%;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-color: hsl(34, 7%, 58%);
+    position: relative;
 }
+
+/* :root {
+    --gradient-start: #0c1c2c;
+    --gradient-end: #1f3b5a;
+    --glow-color: rgba(64, 196, 255, 0.05);
+}
+
+/* body {
+    min-height: 100vh;
+    margin: 0;
+    background: 
+        linear-gradient(135deg, var(--gradient-start) 40%, var(--gradient-end) 80%),
+        radial-gradient(circle at 20% 20%, var(--glow-color), transparent 40%),
+        radial-gradient(circle at 80% 80%, var(--glow-color), transparent 40%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect fill='none' width='200' height='200'/%3E%3Cg fill='none' stroke='%2364b5f6' stroke-opacity='0.08' stroke-width='2'%3E%3Cpath d='M20,20 h40 v40 h-40z' transform='rotate(15 40 40)'/%3E%3Cpath d='M80,80 h40 v20 h-20 v20 h-20z' transform='rotate(-20 100 100)'/%3E%3Cpath d='M140,30 h30 v40 h-30z' transform='rotate(10 155 50)'/%3E%3Cpath d='M50,140 h20 v40 h-20z M70,160 h20 v20 h-20z' transform='rotate(25 70 160)'/%3E%3C/g%3E%3C/svg%3E") repeat;
+    background-size: 100px 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: subtleMove 30s linear infinite;
+    position: relative;
+}
+
+@keyframes subtleMove {
+    0% { 
+        background-position: 0 0;
+        background-size: 100px 200px;
+    }
+    50% {
+        background-size: 120px 240px;
+    }
+    100% { 
+        background-position: 0 200px;
+        background-size: 100px 200px;
+    }
+} */
 
 .grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: start; /* Change from center to start */
+    gap: 0 20px; /* Add horizontal gap between columns */
 }
 
-.tetris-board {
-    /* width: calc(10 * 30px); /* 10 columns * 30 pixels per block = 300px */
-    /* height: calc(20 * 30px); /* 20 rows * 30 pixels per block = 600px */
-    display: block; /* if no use for width & height */
-    background-color: black;
-    border: 2px solid white;
-}
-
-.right_column {
+.left_column, .right_column {
+    height: 600px; /* Exact same height as tetris board */
     display: flex;
     flex-direction: column;
-    justify-content:space-between;
+    justify-content: flex-start;
     align-items: center;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 20px;
+    background-color: rgb(12 58 68 / 82%);
+    border-radius: 10px;
+    border: 1px solid #731c90;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    overflow-y: auto; /* Add scrollbar if content overflows */
 }
 
-.right_column-scores {
-    display: flex;
-    flex-direction: column;
-    justify-content:space-between;
-    gap: 20px;
+.tetris-logo {
+    width: auto;
+    height: 120px;
+    margin-bottom: 30px;
+    display: block;
+    object-fit: contain;
 }
 
-.tetris-next {
-    border: 1px solid white;
+.copyright-notice {
+    font-size: 0.6rem;
+    color: #b5b5c3;  /* Soft gray text */
+    text-align: center;
+    line-height: 1.4;
+    margin: 20px 0;
+    padding: 15px 12px;
+    border: 1px solid #30475e;
+    border-radius: 8px;
+    background-color: rgba(22, 33, 62, 0.7);  /* Semi-transparent dark blue */
+    max-width: 220px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;  /* Add this for absolute positioning of close button */
+    opacity: 1;  /* Add this for fade effect */
+    transition: opacity 0.3s ease-out;  /* Smooth fade out */
+}
+
+.copyright-notice.hidden {
+    opacity: 0;
+    pointer-events: none;  /* Prevent interaction when hidden */
+}
+
+.copyright-notice p {
+    margin: 3px 0;
 }
 
 .play-button {
-    width: 50%;
-    background-color: green;
-    color: white;
-    font-size: 1rem;
-    padding: 10px 20px;
-    border: 2px solid white;
+    width: 120px;
+    background: #cee864;
+    color: #0c333a;
+    font-size: 1.2rem;
+    padding: 15px 20px;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-top: auto;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.play-button:hover {
+    background: linear-gradient(to bottom right, #45a049, #3d8b40);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+}
+
+.tetris-board {
+    width: 300px;
+    height: 600px;
+    background-color: rgba(16, 16, 35, 0.95);
+    border: 2px solid #30475e;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    justify-self: center;
+}
+
+.game-stats {
+    color: white;
+    font-size: 1rem;
+}
+
+.game-stats p {
+    margin-bottom: 15px;
+}
+
+.next-piece {
+    padding: 15px;
+    border: 1px solid #30475e;
+    border-radius: 8px;
+    background-color: rgba(16, 16, 35, 0.5);
+    text-align: center;
+    color: white;
+}
+
+.tetris-next {
+    width: 100%;
+    height: 100%;
+}
+
+.level-up-message {
+    color: #ffd700;  /* Brighter gold color */
+    font-family: 'Press Start 2P', cursive !important;
+    font-size: 1.4rem;
+    text-align: center;
+    visibility: hidden;
+    opacity: 0;
+    text-shadow: 
+        3px 3px 0 rgba(0, 0, 0, 0.7),
+        -1px -1px 0 rgba(255, 255, 255, 0.2);
+    transition: opacity 0.3s ease-in-out;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px 30px;
+    border-radius: 8px;
+    border: 2px solid #ffd700;
+    box-shadow: 
+        0 0 20px rgba(255, 215, 0, 0.3),
+        inset 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+.level-up-message.show {
+    visibility: visible;
+    opacity: 1;
+    animation: levelUpPop 2s ease-in-out;
+}
+
+@keyframes levelUpPop {
+    0% { 
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    20% { 
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    30% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+    80% { 
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% { 
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+        visibility: hidden;
+    }
+}
+
+.controls-guide {
+    margin-top: auto;
+    padding: 20px;
+    border: 1px solid #30475e;
+    border-radius: 8px;
+    background-color: rgba(22, 33, 62, 0.7);  /* Match copyright-notice background */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.controls-guide h2 {
+    color: #b5b5c3;
+    font-size: 12px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-family: 'Press Start 2P', cursive;
+    font-weight: 600;
+}
+
+.controls-guide ul {
+    list-style: none;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.controls-guide li {
+    color: #b5b5c3;
+    font-size: 11px;
+    text-align: left;
+    letter-spacing: 0.5px;
+    line-height: 2;  
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Style for keyboard keys */
+.controls-guide li kbd {
+    background: #30475e;
+    border: 1px solid #4a4e69;
+    border-radius: 4px;
+    box-shadow: 
+        0 2px 0 1px #16213e,
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    display: inline-block;
+    font-family: 'Roboto', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    min-width: 20px;
+    padding: 3px 6px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+/* Retro font ONLY for these specific elements */
+.game-stats,
+.game-stats p,
+.game-stats span,
+.play-button,
+.controls-guide h2 
+.level-up-message {
+    font-family: 'Press Start 2P', cursive !important;
+}
+
+.game-over-message, .pause-message {
+    color: #ffd700;  /* Gold color */
+    font-family: 'Press Start 2P', cursive !important;
+    font-size: 1.4rem;
+    text-align: center;
+    text-shadow: 
+        3px 3px 0 rgba(0, 0, 0, 0.7),
+        -1px -1px 0 rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px 30px;
+    border-radius: 8px;
+    border: 2px solid #ffd700;
+    box-shadow: 
+        0 0 20px rgba(255, 215, 0, 0.3),
+        inset 0 0 10px rgba(255, 215, 0, 0.2);
+    animation: messageAppear 0.5s ease-out forwards;
+}
+
+.game-over-message {
+    color: #ff4444;  /* Red color for game over */
+    border-color: #ff4444;
+    box-shadow: 
+        0 0 20px rgba(255, 68, 68, 0.3),
+        inset 0 0 10px rgba(255, 68, 68, 0.2);
+}
+
+@keyframes messageAppear {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.close-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: rgba(48, 71, 94, 0.5);
+    color: #b5b5c3;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    line-height: 1;
+    padding: 0;
+    transition: all 0.2s ease;
+}
+
+.close-button:hover {
+    background: rgba(48, 71, 94, 0.8);
+    color: white;
+}
+
+.sound-toggle {
+    width: 50px;
+    height: 50px;
+    background: rgba(22, 33, 62, 0.7);
+    border: 1px solid #30475e;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    margin: 10px auto;
+    padding: 0;
+}
+
+.sound-toggle:hover {
+    background: rgba(48, 71, 94, 0.8);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.sound-toggle .sound-icon {
+    font-size: 28px;
+    color: #b5b5c3;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.sound-toggle:hover .sound-icon {
+    color: white;
+}
+
+.sound-toggle.muted .sound-icon {
+    color: #ff4444;
+}
+
+.sound-toggle.muted .sound-icon::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: #ff4444;
+    left: 0;
+    top: 50%;
+    transform: rotate(-45deg);
+}
+
+/* Add these media queries at the end of your style.css file */
+
+@media screen and (max-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    /* Left Column - match tetris board width */
+    .left_column {
+        height: auto;
+        width: 300px; /* Match tetris board width */
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0; /* Remove horizontal padding */
+        order: 1;
+        margin: 0 auto;
+    }
+
+    .tetris-logo {
+        height: 60px;
+        margin: 0 0 0 15px;
+    }
+
+    /* Hide sound toggle on mobile */
+    .sound-toggle {
+        display: none;
+    }
+
+    .play-button {
+        width: auto;
+        margin: 0 15px 0 0;
+        font-size: 1.2rem;
+        padding: 8px 15px;
+    }
+
+    /* Copyright Notice */
+    .copyright-notice {
+        position: fixed;
+        top: 90px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+        width: 80%;
+        max-width: 300px;
+        margin: 0;
+    }
+
+    /* Main Game Board */
+    .tetris-board {
+        order: 2;
+        margin: 0 auto;
+    }
+
+    /* Right Column */
+    .right_column {
+        height: auto;
+        order: 3;
+        padding: 15px;
+    }
+
+    /* Controls Guide - mobile version */
+    .controls-guide {
+        width: 300px;
+        margin: 10px auto;
+        padding: 10px 0;
+        order: 1;
+    }
+
+    .controls-guide ul {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .controls-guide .arrow-controls,
+    .controls-guide .action-controls {
+        display: flex;
+        gap: 8px;
+    }
+
+    /* Hide desktop-only controls on mobile */
+    .controls-guide .desktop-controls {
+        display: none;
+    }
+
+    /* Hide text descriptions on mobile */
+    .controls-guide li {
+        font-size: 0;
+    }
+
+    .controls-guide li kbd {
+        font-size: 14px;
+        padding: 8px 10px;
+        margin: 0 2px;
+        cursor: pointer;
+    }
+
+    /* Special styling for Space button */
+    .controls-guide li:nth-child(5) kbd {
+        padding: 8px 20px;
+    }
+
+    /* Game Stats */
+    .game-stats {
+        order: 2;
+        margin: 15px 0;
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+    }
+
+    .game-stats p {
+        display: flex;
+        flex-direction: column;  /* Stack label and value vertically */
+        align-items: center;
+        gap: 8px;  /* Space between stacked elements */
+        line-height: 1.5;  /* Increased line height */
+    }
+
+    .game-stats span {
+        margin-top: 5px;  /* Additional space above the numbers */
+    }
+
+    /* Next Piece */
+    .next-piece {
+        order: 3;
+        width: 120px;
+        margin: 0 auto;
+    }
+
+    /* Hide control descriptions */
+    .controls-guide h2 {
+        display: none;
+    }
+}
+
+/* Additional adjustments for very small screens */
+@media screen and (max-width: 350px) {
+    .tetris-board {
+        width: 280px;
+        height: 560px;
+    }
+
+    .controls-guide li kbd {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
 }
