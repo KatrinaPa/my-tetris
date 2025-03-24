@@ -14,7 +14,7 @@
             rgba(10, 15, 44, 0.1) 70%,
             rgba(10, 15, 44, 0.85) 100%
         ),
-        url('/assets/images/backgr4.jpg');
+        url('/assets/images/background.jpg');
         background-attachment: fixed;
         background-size: cover;
         background-position: bottom;    
