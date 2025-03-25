@@ -40,11 +40,9 @@ let board = new Board(context, contextNext);
 addEventListener();
 initNext();
 
-// At the top of my_tetris.js, after your const declarations
-sounds.music.load(); // Preload the music
+sounds.music.load();
 
 function initNext() {
-    // Calculate size of canvas from constants
     contextNext.canvas.width = 4 * BLOCK_SIZE;
     contextNext.canvas.height = 4 * BLOCK_SIZE;
     contextNext.scale(BLOCK_SIZE, BLOCK_SIZE);
@@ -52,14 +50,11 @@ function initNext() {
 
 function addEventListener() {
     document.addEventListener('keydown', event => {
-        // Add Enter key to start game
         if (event.keyCode === KEY.ENTER) {
             event.preventDefault();
             play();
             return;
-        }
-        
-        // Update pause controls
+        }       
         if (event.keyCode === KEY.P) {
             event.preventDefault();
             pause();
@@ -102,30 +97,26 @@ function addEventListener() {
         }
     });
 
-    // Add this after your other event listeners
     document.querySelector('.close-button').addEventListener('click', function() {
         const notice = document.querySelector('.copyright-notice');
         notice.classList.add('hidden');
     });
 
-    // Add this after your other event listeners in addEventListener()
     const soundToggle = document.querySelector('.sound-toggle');
     let isMuted = false;
 
     soundToggle.addEventListener('click', function() {
         isMuted = !isMuted;
         
-        // No need to change the icon text, just toggle the muted class
         this.classList.toggle('muted');
         
-        // Mute/unmute all sounds
         sounds.music.muted = isMuted;
         sounds.gameover.muted = isMuted;
         sounds.clearLine.muted = isMuted;
         sounds.nextLevel.muted = isMuted;
     });
 
-    // Add touch controls for mobile
+    // touch controls for mobile
     document.querySelectorAll('.controls-guide kbd').forEach(button => {
         button.addEventListener('click', (event) => {
             event.preventDefault();
@@ -146,7 +137,6 @@ function addEventListener() {
             };
 
             if (keyMap[key]) {
-                // Create and dispatch keyboard event
                 const keyEvent = new KeyboardEvent('keydown', {
                     keyCode: keyMap[key]
                 });
@@ -164,8 +154,11 @@ function resetGame() {
     time = { start: performance.now(), elapsed: 0, level: LEVEL[account.level] };
 }
 
+function isMobileDevice() {
+    return window.innerWidth <= 768;
+}
+
 function play() {
-    // Remove game over message if it exists
     const gameOverMsg = document.querySelector('.game-over-message');
     if (gameOverMsg) {
         gameOverMsg.remove();
@@ -174,15 +167,15 @@ function play() {
     resetGame();
     time.start = performance.now();
     
-    // If we have an old game running a cancel it
     if (requestId) {
         cancelAnimationFrame(requestId);
     }
     
-    // Start music from beginning with lower volume
-    sounds.music.currentTime = 0;
-    sounds.music.volume = 0.06; // Set volume to 2% here
-    sounds.music.play();
+    if (!isMobileDevice()) {
+        sounds.music.currentTime = 0;
+        sounds.music.volume = 0.06;
+        sounds.music.play();
+    }
     
     animate();
 }
@@ -204,9 +197,10 @@ function animate(now = 0) {
 function gameOver() {
     cancelAnimationFrame(requestId);
     
-    // Stop background music and play game over sound
-    sounds.music.pause();
-    sounds.gameover.play();
+    if (!isMobileDevice()) {
+        sounds.music.pause();
+        sounds.gameover.play();
+    }
     
     context.fillStyle = 'rgba(0, 0, 0, 0.5)';
     context.fillRect(0, 0, context.canvas.width, context.canvas.height);
@@ -220,16 +214,19 @@ function gameOver() {
 function pause() {
     if (!requestId) {
         animate();
-        // Remove pause message if exists
         const pauseMsg = document.querySelector('.pause-message');
         if (pauseMsg) pauseMsg.remove();
-        sounds.music.play(); // Resume music
+        if (!isMobileDevice()) {
+            sounds.music.play();
+        }
         return;
     }
     
     cancelAnimationFrame(requestId);
     requestId = null;
-    sounds.music.pause(); // Pause music
+    if (!isMobileDevice()) {
+        sounds.music.pause();
+    }
     
     const pauseDiv = document.createElement('div');
     pauseDiv.className = 'pause-message';

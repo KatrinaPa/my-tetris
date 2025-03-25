@@ -17,9 +17,8 @@ class Board {
     }
 
     init() {
-        // Set canvas size
-        this.context.canvas.width = COLUMNS * BLOCK_SIZE; // 10 * 30 = 300px
-        this.context.canvas.height = ROWS * BLOCK_SIZE; // 20 * 30 = 600px
+        this.context.canvas.width = COLUMNS * BLOCK_SIZE;
+        this.context.canvas.height = ROWS * BLOCK_SIZE;
         this.context.scale(BLOCK_SIZE, BLOCK_SIZE); //context.scale(30, 30) means that each unit in the drawing functions (1) is now 30 pixels on the screen
     }
 
@@ -99,11 +98,12 @@ class Board {
         
         this.grid.forEach((row, y) => {
             if (row.every(value => value > 0)) {
-                // Immediately remove the line
                 this.grid.splice(y, 1);
                 this.grid.unshift(Array(COLUMNS).fill(0));
                 lines++;
-                sounds.clearLine.play(); // Play clear line sound
+                if (!isMobileDevice()) {
+                    sounds.clearLine.play();
+                }
             }
         });
 
@@ -115,7 +115,9 @@ class Board {
                 account.level++;
                 account.lines -= LINES_PER_LEVEL;
                 time.level = LEVEL[account.level];
-                sounds.nextLevel.play(); // Play level up sound
+                if (!isMobileDevice()) {
+                    sounds.nextLevel.play();
+                }
                 this.showLevelUp();
             }
         }
@@ -244,7 +246,7 @@ class Board {
         return p;
     }
 
-    getLinesClearedPoints(lines, level) { // Calculates the points a player earns for clearing lines
+    getLinesClearedPoints(lines, level) {
         let lineClearPoints = 0;
         switch (lines) {
             case 1:
@@ -262,7 +264,7 @@ class Board {
             default:
                 lineClearPoints = 0;
         }  
-        return (account.level + 1) * lineClearPoints; // Points are calculated based on the level and the number of lines cleared
+        return (account.level + 1) * lineClearPoints;
     }
 
     levelUp() {
@@ -320,7 +322,7 @@ class Board {
     }
 
     holdPiece() {
-        if (!this.canHold) return; // Only once per piece drop
+        if (!this.canHold) return;
 
         if (this.heldPiece === null) {
             // First hold
